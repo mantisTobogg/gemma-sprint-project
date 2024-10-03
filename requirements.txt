@@ -1,0 +1,16 @@
+# List of required libraries to run the model
+# Note: huggingface key is also required if you wish to run locally
+# Python==3.10.14
+
+pandas==2.2.2
+numpy==1.26.4
+scikit-learn==1.2.2
+torch==2.4.1
+transformers==4.45.1
+better-profanity==0.7.0
+regex==2024.9.11
+protobuf==4.25.5
+huggingface-hub==0.25.1
+tqdm==4.66.5
+matplotlib==3.7.5
+scipy==1.14.1
