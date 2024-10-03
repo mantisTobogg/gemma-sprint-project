@@ -20,3 +20,23 @@ venv/
 
 # Mac-specific files
 ._*
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+$py.class
+
+# Virtual environment folders
+env/
+venv/
+*.egg-info/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Mac-specific files
+._*
