@@ -8,6 +8,7 @@
   - Special thanks to the bootcamp organizers for the support all throughout the bootcamp as well as for the opportunity to take part in this journey. -Kihun Choi -
      
 
+![Gemma  Final_Architecture_Overview](https://github.com/user-attachments/assets/ed02ac3c-35f4-4a6b-a6e1-57bef0530617)
 
 
 
