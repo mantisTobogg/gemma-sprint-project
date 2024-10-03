@@ -3,6 +3,7 @@
 
 ## Sentiment Analysis &amp; Subsequent Flagging of Inappropriate Language
 
+## --> Being my first repo, it is in need of some organization improvements. I'll continue to "fine-tune :)" the visuals and overall repository organization. 
 
 
   - Special thanks to the bootcamp organizers for the support all throughout the bootcamp as well as for the opportunity to take part in this journey. -Kihun Choi -
