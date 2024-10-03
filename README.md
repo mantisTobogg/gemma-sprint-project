@@ -4,7 +4,7 @@
 
 
   - Special thanks to the bootcamp organizers for the support all throughout the bootcamp as well as for the opportunity to take part in this journey. -Kihun Choi -
-  - 
+  - The 
 
 
 
