@@ -106,3 +106,42 @@ The model was trained and evaluated on Apple Silicon (M2) using PyTorch. Resourc
 	•	Training Time: ~6 hours for the sarcasm model and ~4 hours for offensive language integration.
 
 
+
+# - temp -
+# E: How to Get Started with the Model
+### Install the Required Libraries:
+    Refer to requirements.txt 
+
+### Use the Code Below to Get Started:
+    import pandas as pd
+    from transformers import pipeline
+
+### Load the Pre-trained Sentiment Analysis Model
+    model_name = "distilbert-base-uncased-finetuned-sst-2-english"
+    sentiment_analyzer = pipeline("sentiment-analysis", model=model_name)
+
+### Example Comment List
+    comments = ["Great job!", "This is terrible.", "You did it! 🙃"]
+
+### Perform Sentiment Analysis
+    results = sentiment_analyzer(comments)
+    print(results)
+
+#### For sarcasm detection, use the following code snippet:
+
+    from transformers import AutoTokenizer, AutoModelForSequenceClassification
+    import torch
+
+#### Load Sarcasm Detection Model
+    sarcasm_model_name = "helinivan/english-sarcasm-detector"
+    sarcasm_tokenizer = AutoTokenizer.from_pretrained(sarcasm_model_name)
+    sarcasm_model = AutoModelForSequenceClassification.from_pretrained(sarcasm_model_name).to("mps")
+
+#### Perform Sarcasm Detection on a Single Example
+    comment = "Wow, you really did a great job. 🙄"
+    inputs = sarcasm_tokenizer(comment, return_tensors="pt").to("mps")
+    outputs = sarcasm_model(**inputs)
+    sarcasm_score = outputs.logits.softmax(dim=1)[0][1].item()
+    is_sarcastic = sarcasm_score >= 0.6
+    print(f"Is the comment sarcastic? {'Yes' if is_sarcastic else 'No'}")
+
