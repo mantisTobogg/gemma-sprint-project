@@ -4,10 +4,42 @@
 #### Being my first repo, it is in need of some organization improvements. I'll continue to "fine-tune :)" the visuals and overall repository organization. 
 
   - Special thanks to the bootcamp organizers for the support all throughout the bootcamp as well as for the opportunity to take part in this journey. -Kihun Choi -
+
+
   - For documentation regarding the overview and scope of the project, I urge you to take a look in the docs/ folder!
+  - > Datasets are also available in **Kaggle's Datasets Libray**:
+    > https://www.kaggle.com/datasets/samkihunchoi/us-youtube-comments-dataset
+---
+
+# About the Dataset: 
+
+## 1. Original Dataset: `UScomments.csv`
+
+The **UScomments.csv** dataset was initially a raw collection of user-generated comments from various sources. It contained multiple columns, such as user IDs, timestamps, and additional metadata. However, it was quite noisy, making it challenging to extract meaningful insights for sentiment analysis directly. The primary goal was to convert this dataset into a refined form that could serve as a strong foundation for a binary sentiment classification model.
+
+### Purpose:
+The main reason for refining this dataset was to create a structured and standardized format suitable for training a sentiment analysis model. By filtering out irrelevant metadata and focusing solely on the text and its associated sentiment, we aimed to improve model performance and reduce complexity.
 
 
+## 2. Refined Dataset: `UScomments_final_cleaned.csv`
 
+The refined version, **UScomments_final_cleaned.csv**, contains only two columns:
+
+1. **Comment**: The cleaned text data, representing user comments.
+2. **Sentiment**: A binary label indicating the sentiment:
+   - `1`: **Positive Sentiment**
+   - `0`: **Negative Sentiment**
+
+### Purpose: Gemma-Sprint Project
+The purpose of creating this refined dataset was to enable a more focused sentiment analysis task, eliminating unnecessary information and ensuring that the model could effectively learn patterns based solely on the sentiment labels. This step was crucial in allowing us to integrate more complex models, such as the `gemma-2b-it` text generation model, for downstream analysis and contextual response generation.
+
+
+## A Quick Note on Dataset Attribution
+I apologize for not being able to provide the original creators or references for the dataset, as it was provided without detailed attribution. If anyone recognizes this dataset and has more information on its origin, I would be happy to update the documentation and give credit where it's due.
+
+ ---
+ ---
+ 
 # Sentiment Analysis &amp; Subsequent Flagging of Inappropriate Language
 
 
