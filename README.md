@@ -44,8 +44,8 @@ Utilized the gemma-2b-it model for context-aware text generation to generate rel
 
 ## About the Dataset
 #### Dataset Information
->- Datasets also available in **Kaggle's Datasets Library: 
-> [US YouTube Comments Dataset on Kaggle](https://www.kaggle.com/datasets/samkihunchoi/us-youtube-comments-dataset)
+> [!IMPORTANT]
+> ***Be advised, the dataset contains some extremely vulagr language***
 
 ### 1. Original Dataset: `UScomments.csv`
 - The **UScomments.csv** dataset was initially a raw collection of user-generated comments from various sources. It contained multiple columns, such as user IDs, timestamps, and additional metadata. However, it was quite noisy, making it challenging to extract meaningful insights for sentiment analysis directly. The primary goal was to convert this dataset into a refined form that could serve as a strong foundation for a binary sentiment classification model.
@@ -62,6 +62,9 @@ The refined version, **UScomments_final_cleaned.csv**, contains only two columns
 
 > **Seconday Processing:**  
 The purpose of creating this refined dataset was to enable a more focused sentiment analysis task, eliminating unnecessary information and ensuring that the model could effectively learn patterns based solely on the sentiment labels.
+
+> [!TIP]
+> Datasets also available in **Kaggle's Datasets Library**: [US YouTube Comments Dataset on Kaggle](https://www.kaggle.com/datasets/samkihunchoi/us-youtube-comments-dataset)
 
 ---
 
