@@ -1,11 +1,27 @@
 
 # Gemma-Sprint-Project
-### Google for Developer: Machine Learning Bootcamp 2024
+>- #### Special thanks to the bootcamp organizers for the support throughout the bootcamp as well as for the opportunity to take part in this journey. - Kihun Choi 
 
-- #### Special thanks to the bootcamp organizers for the support throughout the bootcamp as well as for the opportunity to take part in this journey. - Kihun Choi 
+> - For further documentation regarding the overview and scope of the project, they are available in the **docs/** folder!
+ 
+## Google for Developer: Machine Learning Bootcamp 2024
+### **Project Background:**
+The main goal of this project was to create an end-to-end solution for detecting and classifying user comments based on sentiment and offensive language, including:
+ 1. Sentiment Analysis Pipeline:
+Integrated with distilbert-base-uncased-finetuned-sst-2-english to classify comments as Positive, Neutral, or Negative.
+ 2. Offensive Language Detection:
+Implemented multi-tiered text filtering and categorization to handle varying levels of offensive language severity.
+ 3. Sarcasm Detection Integration:
+Integrated sarcasm detection using helinivan/english-sarcasm-detector, enhancing the model’s ability to recognize and handle subtle sarcastic cues in the comments.
+4. Response Generation:
+Utilized the gemma-2b-it model for context-aware text generation to generate relevant responses based on sentiment categories. 
 
-- For further documentation regarding the overview and scope of the project, they are available in the **docs/** folder!
-
+### **Pillars of Success:**
+- Incorporate sentiment-specific prompts to produce more tailored responses.
+- Preserve original DataFrame structure and classification columns (`Sentiment Label`, `Offensive_Flag`, `Sarcasm_Flag`).
+- Integrate the `gemma-2b-it` model for generating contextual responses based on sentiment labels.
+- Ensure compatibility with the existing sentiment analysis system and DataFrame structure.
+ - Create prompts based on sentiment labels (Positive, Negative, Neutral).
 ---
 
 ## Table of Contents
@@ -17,7 +33,8 @@
    - [1. Model Description](#model-description)
    - [2. Applications](#applications)
    - [3. Downstream Use](#downstream-use)
-   - [4. Out-of-Scope Use](#out-of-scope-use)
+   - [4. Gemma-2b-it Integration](#Gemma-2b-it-Integration)
+   - [5. Out-of-Scope Use](#out-of-scope-use)
 4. [Bias, Risks, and Limitations](#bias-risks-and-limitations)
 5. [Training Details](#training-details)
 6. [Evaluation](#evaluation)
@@ -26,14 +43,14 @@
 ---
 
 ## About the Dataset
-### Dataset Information
-- Datasets also available in **Kaggle's Datasets Library:  
-  [US YouTube Comments Dataset on Kaggle](https://www.kaggle.com/datasets/samkihunchoi/us-youtube-comments-dataset)
+#### Dataset Information
+>- Datasets also available in **Kaggle's Datasets Library: 
+> [US YouTube Comments Dataset on Kaggle](https://www.kaggle.com/datasets/samkihunchoi/us-youtube-comments-dataset)
 
 ### 1. Original Dataset: `UScomments.csv`
-The **UScomments.csv** dataset was initially a raw collection of user-generated comments from various sources. It contained multiple columns, such as user IDs, timestamps, and additional metadata. However, it was quite noisy, making it challenging to extract meaningful insights for sentiment analysis directly. The primary goal was to convert this dataset into a refined form that could serve as a strong foundation for a binary sentiment classification model.
+- The **UScomments.csv** dataset was initially a raw collection of user-generated comments from various sources. It contained multiple columns, such as user IDs, timestamps, and additional metadata. However, it was quite noisy, making it challenging to extract meaningful insights for sentiment analysis directly. The primary goal was to convert this dataset into a refined form that could serve as a strong foundation for a binary sentiment classification model.
 
-**Initial Processing:**  
+> **Initial Processing:**  
 The main reason for refining this dataset was to create a structured and standardized format suitable for training a sentiment analysis model. By filtering out irrelevant metadata and focusing solely on the text and its associated sentiment, we aimed to improve model performance and reduce complexity.
 
 ### 2. Refined Dataset: `UScomments_final_cleaned.csv`
@@ -43,7 +60,7 @@ The refined version, **UScomments_final_cleaned.csv**, contains only two columns
   - `1`: **Positive Sentiment**
   - `0`: **Negative Sentiment**
 
-**Seconday Processing:**  
+> **Seconday Processing:**  
 The purpose of creating this refined dataset was to enable a more focused sentiment analysis task, eliminating unnecessary information and ensuring that the model could effectively learn patterns based solely on the sentiment labels.
 
 ---
@@ -82,7 +99,24 @@ This model is designed to enhance the sentiment analysis pipeline by incorporati
 - **Toxicity Filtering in Social Media**
 - **Refinement of Sentiment Models**
 
-### 4. Out-of-Scope Use
+### 4. Gemma-2b-it Integration:
+
+- Integrated using a response generation function that maps sentiment labels to specific prompts, it enabled the output of targeted responses based on the comment’s sentiment.The steps include:
+
+	**a)  Prompt Creation**:
+	- Define custom prompts for each comment, based on its sentiment label (`POSITIVE`, `NEGATIVE`, `NEUTRAL`).
+	- The prompt guides the text generation by setting the context for the response.
+
+	**b) Response Generation**:
+	- Utilize the `gemma-2b-it` model to generate responses for each comment.
+	- The generation is controlled using parameters such as `max_length` and `num_return_sequences` to constrain the output.
+
+	**c) DataFrame Integration**:
+	- The generated responses are stored in a new column (`Gemma_Response`) alongside existing sentiment classification columns.
+	- This allows for easy comparison and analysis.
+
+
+### 5. Out-of-Scope Use
 - This model is not intended for high-stakes scenarios or clinical decisions without human supervision.
 
 ---
@@ -122,12 +156,39 @@ This model is designed to enhance the sentiment analysis pipeline by incorporati
   - Learning rate: 1e-5
   - Epochs: 5
 
+### 4. Gemma-2b-it Integration:
+- **Model Integration**:
+   - Load the `gemma-2b-it` model using `AutoTokenizer` and `AutoModelForCausalLM`.
+   - Set up the tokenizer and model configurations for the response generation task.
+- **Prompt Engineering**:
+   - Define prompt templates for each sentiment label:
+     - `POSITIVE`: Generate a friendly response.
+     - `NEGATIVE`: Suggest a constructive response.
+     - `NEUTRAL`: Provide a general comment.
+
+- **Response Generation Function**:
+   - Implement a function (`generate_gemma_response`) to take each comment and generate a response based on its sentiment label.
+   - Use `gemma_text_generator` to produce the response based on the predefined prompt.
+
+- **Integration with Existing DataFrame**:
+   - Add a new column `Gemma_Response` to the `df_sentiments` DataFrame to hold the generated responses.
+   - Ensure that the existing columns (`Comment`, `Sentiment Label`, `Sentiment Score`) remain intact.
+
+- **Performance Optimization**:
+   - Use batch processing or save intermediate results to minimize run-time in future iterations. 
+
+    
 ---
 
 ## Evaluation
 
+
 ### 1. Results
-The model demonstrated strong performance in distinguishing between offensive and non-offensive comments. It was able to detect sarcasm in typical English language patterns with reasonable accuracy. The final weighted reclassification significantly improved the handling of complex comments.
+- **The model demonstrated strong performance** in distinguishing between offensive and non-offensive comments. It was able to detect sarcasm in typical English language patterns with reasonable accuracy. The final weighted reclassification significantly improved the handling of complex comments.
+
+- **Furthermore, with the integration of gemma-2b-it with the sentiment analysis system** resulted in a substantial improvement in the contextual understanding of user comments. The generated responses closely align with the detected sentiment, providing a more human-like interaction layer.
+
+> - ***Further improvements can be made by fine-tuning the response generation model or adjusting the prompt templates based on specific requirements.***
 
 ### 2. Technical Specifications
 The model was trained and evaluated on Apple Silicon (M2) using PyTorch.
