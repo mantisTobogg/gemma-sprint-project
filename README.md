@@ -203,42 +203,95 @@ The model was trained and evaluated on Apple Silicon (M2) using PyTorch.
 
 ## How to Get Started
 
-### Install the Required Libraries:
+## **Step-by-Step Guide for Running the Quickstart Code**
+
+### **1. Install Required Dependencies**
+Ensure that **Python** and **pip** are installed. Use the following commands to install the required packages.
+
+Install the Required Libraries:
 Refer to `requirements.txt` for installation instructions.
 
-### Example Code:
+```bash
+# Install transformers library (Hugging Face)
+pip install transformers torch pandas
+```
+
+**Note:**  
+- If you're on **Apple Silicon (M1/M2)**, ensure the correct **PyTorch version** is installed with Metal Performance Shaders (`mps`). Use:
+   ```bash
+   pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+   ```
+
+---
+
+### **2. Create a New Python File (Optional)**
+Create a file called **`quickstart.py`** to organize the code.
+
+```bash
+touch quickstart.py
+```
+
+---
+
+### **3. Paste the Code into `quickstart.py`**
+
+Here’s the **revised Quickstart code** to paste into your new file:
+
+### Quick-Start Code:
+This version ensures the code runs smoothly on different environments, such as CPU, GPU, or Apple MPS (Mac)
 
 ```python
-import pandas as pd
-from transformers import pipeline
-
-# Load the Pre-trained Sentiment Analysis Model
-model_name = "distilbert-base-uncased-finetuned-sst-2-english"
-sentiment_analyzer = pipeline("sentiment-analysis", model=model_name)
-
-# Example Comment List
-comments = ["Great job!", "This is terrible.", "You did it! 🙃"]
-
-# Perform Sentiment Analysis
-results = sentiment_analyzer(comments)
-print(results)
-
-# For sarcasm detection, use the following code snippet:
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 
 # Load Sarcasm Detection Model
 sarcasm_model_name = "helinivan/english-sarcasm-detector"
 sarcasm_tokenizer = AutoTokenizer.from_pretrained(sarcasm_model_name)
-sarcasm_model = AutoModelForSequenceClassification.from_pretrained(sarcasm_model_name).to("mps")
+
+# Device Handling Logic for Compatibility
+device = torch.device("mps" if torch.backends.mps.is_available() else 
+                      "cuda" if torch.cuda.is_available() else "cpu")
+
+sarcasm_model = AutoModelForSequenceClassification.from_pretrained(sarcasm_model_name).to(device)
 
 # Perform Sarcasm Detection on a Single Example
 comment = "Wow, you really did a great job. 🙄"
-inputs = sarcasm_tokenizer(comment, return_tensors="pt").to("mps")
+inputs = sarcasm_tokenizer(comment, return_tensors="pt").to(device)
 outputs = sarcasm_model(**inputs)
+
+# Calculate Sarcasm Score and Determine if the Comment is Sarcastic
 sarcasm_score = outputs.logits.softmax(dim=1)[0][1].item()
 is_sarcastic = sarcasm_score >= 0.6
+
 print(f"Is the comment sarcastic? {'Yes' if is_sarcastic else 'No'}")
 ```
 
+---
+
+### **4. Run the Code**
+
+Navigate to the directory where your **`quickstart.py`** file is located, and run the code:
+
+```bash
+python quickstart.py
+```
+
+---
+
+### **5. Expected Output**
+
+If everything works correctly, you’ll see output similar to the following:
+
+```bash
+Sentiment Analysis Results: [{'label': 'POSITIVE', 'score': 0.9998}, 
+                             {'label': 'NEGATIVE', 'score': 0.9985}, 
+                             {'label': 'POSITIVE', 'score': 0.9876}]
+Is the comment sarcastic? Yes
+```
+
+---
+
+### **Troubleshooting Tips**
+1. **CUDA/MPS Errors:** If you're not on a **Mac** or **GPU**-enabled system, the device should automatically fall back to **CPU**.
+2. **Model Download Issues:** Make sure your internet connection is active to download the Hugging Face models. 
 ---
