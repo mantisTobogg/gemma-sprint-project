@@ -6,7 +6,8 @@
 
 
 
-# batch_processing.py (Batch Processing)
+# batch_processing.py – Batch Processing Logic
+
 def batch_process(data, batch_size, process_func):
     """Process data in batches to optimize memory usage."""
     for i in range(0, len(data), batch_size):

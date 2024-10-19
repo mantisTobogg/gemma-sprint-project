@@ -1,39 +1,33 @@
-# 4. run_pipeline.py – Main Execution Script
-
-# 	•	Purpose: Orchestrates the entire pipeline by:
-# 	•	Loading the dataset
-# 	•	Running batch processing for sentiment and sarcasm analysis
-# 	•	Generating responses for relevant comments
-# 	•	Saving the results to CSV
-# 	•	Equivalent Cells in Original .ipynb:
-# 	•	Dataset loading and validation
-# → Equivalent to Cell 2 (CSV loading and extraction of comment_text).
-# 	•	Final aggregation of sentiment, sarcasm, and offensive detection results
-# → Corresponds to the final summary and result display sections in the notebook.
-
 # run_pipeline.py (Run the Complete Pipeline)
-from main import (
-    analyze_sentiment, detect_sarcasm, 
+import os
+import pandas as pd
+from .config import CONFIG  # Import CONFIG to access batch size
+from .main import (
+    analyze_sentiment, detect_sarcasm,
     contains_offensive_language, generate_responses
 )
-from batch_processing import batch_process
-import pandas as pd
+from .batch_processing import batch_process
 
 # Load dataset
-data = pd.read_csv("UScomments.csv", on_bad_lines="skip")
+DATASET_PATH = os.path.join(os.getcwd(), "datasets", "UScomments.csv")
+data = pd.read_csv(DATASET_PATH, on_bad_lines="skip")
+
+if 'comment_text' not in data.columns:
+    raise ValueError("The 'comment_text' column is missing from the dataset.")
 comments = data['comment_text'].astype(str).tolist()
 
-# Process in batches
-sentiments = []
-sarcasm_labels = []
-offensive_flags = []
+# Initialize lists to store results
+sentiments, sarcasm_labels, offensive_flags = [], [], []
 
+# Process sentiment in batches
 for sentiment_batch in batch_process(comments, CONFIG["batch_size"], analyze_sentiment):
     sentiments.extend(sentiment_batch)
 
+# Process sarcasm detection in batches
 for sarcasm_batch in batch_process(comments, CONFIG["batch_size"], detect_sarcasm):
     sarcasm_labels.extend(sarcasm_batch)
 
+# Detect offensive language
 offensive_flags = [contains_offensive_language(comment) for comment in comments]
 
 # Generate responses
@@ -48,6 +42,7 @@ df_results = pd.DataFrame({
     "Response": responses
 })
 
-# Save results
-df_results.to_csv("Processed_Comments.csv", index=False)
-print("Processing complete. Results saved to 'Processed_Comments.csv'.")
+# Save results to CSV
+OUTPUT_PATH = os.path.join(os.getcwd(), "outputs", "Processed_Comments.csv")
+df_results.to_csv(OUTPUT_PATH, index=False)
+print(f"Processing complete. Results saved to '{OUTPUT_PATH}'.")

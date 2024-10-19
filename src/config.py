@@ -1,7 +1,6 @@
 # config.py (Configuration Settings)
 import torch
 
-# Define models and their thresholds
 CONFIG = {
     "models": {
         "sentiment": "distilbert-base-uncased-finetuned-sst-2-english",
