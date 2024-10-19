@@ -206,7 +206,35 @@ The model was trained and evaluated on Apple Silicon (M2) using PyTorch.
 ### Install the Required Libraries:
 Refer to `requirements.txt` for installation instructions.
 
-### Example Code:
+### Quick-Start Code:
+This version ensures the code runs smoothly on different environments, such as CPU, GPU, or Apple MPS (Mac)
+
+```python
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+import torch
+
+# Load Sarcasm Detection Model
+sarcasm_model_name = "helinivan/english-sarcasm-detector"
+sarcasm_tokenizer = AutoTokenizer.from_pretrained(sarcasm_model_name)
+
+# Device Handling Logic for Compatibility
+device = torch.device("mps" if torch.backends.mps.is_available() else 
+                      "cuda" if torch.cuda.is_available() else "cpu")
+
+sarcasm_model = AutoModelForSequenceClassification.from_pretrained(sarcasm_model_name).to(device)
+
+# Perform Sarcasm Detection on a Single Example
+comment = "Wow, you really did a great job. 🙄"
+inputs = sarcasm_tokenizer(comment, return_tensors="pt").to(device)
+outputs = sarcasm_model(**inputs)
+
+# Calculate Sarcasm Score and Determine if the Comment is Sarcastic
+sarcasm_score = outputs.logits.softmax(dim=1)[0][1].item()
+is_sarcastic = sarcasm_score >= 0.6
+
+print(f"Is the comment sarcastic? {'Yes' if is_sarcastic else 'No'}")
+```
+### Quick-Start Code:
 
 ```python
 import pandas as pd
@@ -239,6 +267,5 @@ outputs = sarcasm_model(**inputs)
 sarcasm_score = outputs.logits.softmax(dim=1)[0][1].item()
 is_sarcastic = sarcasm_score >= 0.6
 print(f"Is the comment sarcastic? {'Yes' if is_sarcastic else 'No'}")
-```
-
+``` 
 ---
