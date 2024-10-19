@@ -1,48 +1,36 @@
-# run_pipeline.py (Run the Complete Pipeline)
-import os
+# run_pipeline.py - Runs the sentiment and sarcasm analysis pipeline
+
 import pandas as pd
-from .config import CONFIG  # Import CONFIG to access batch size
-from .main import (
-    analyze_sentiment, detect_sarcasm,
-    contains_offensive_language, generate_responses
-)
-from .batch_processing import batch_process
+from main import analyze_sentiment, detect_sarcasm, generate_gemma_response
+from batch_processing import batch_process
+from config import CONFIG
 
-# Load dataset
-DATASET_PATH = os.path.join(os.getcwd(), "datasets", "UScomments.csv")
-data = pd.read_csv(DATASET_PATH, on_bad_lines="skip")
+def run_pipeline(input_file):
+    """Run the sentiment and sarcasm analysis on the input data."""
+    data = pd.read_csv(input_file)
+    comments = data['comment'].tolist()
 
-if 'comment_text' not in data.columns:
-    raise ValueError("The 'comment_text' column is missing from the dataset.")
-comments = data['comment_text'].astype(str).tolist()
+    sentiment_labels = []
+    sarcasm_labels = []
 
-# Initialize lists to store results
-sentiments, sarcasm_labels, offensive_flags = [], [], []
+    # Perform Sentiment Analysis
+    for sentiment_batch in batch_process(comments, CONFIG["batch_size"], analyze_sentiment):
+        sentiment_labels.extend(sentiment_batch)
 
-# Process sentiment in batches
-for sentiment_batch in batch_process(comments, CONFIG["batch_size"], analyze_sentiment):
-    sentiments.extend(sentiment_batch)
+    # Perform Sarcasm Detection
+    for sarcasm_batch in batch_process(comments, CONFIG["batch_size"], detect_sarcasm):
+        sarcasm_labels.extend(sarcasm_batch)
 
-# Process sarcasm detection in batches
-for sarcasm_batch in batch_process(comments, CONFIG["batch_size"], detect_sarcasm):
-    sarcasm_labels.extend(sarcasm_batch)
+    # Generate Gemma Responses
+    gemma_responses = [generate_gemma_response(comment) for comment in comments]
 
-# Detect offensive language
-offensive_flags = [contains_offensive_language(comment) for comment in comments]
+    # Save Results
+    results = pd.DataFrame({
+        "Comment": comments,
+        "Sentiment": sentiment_labels,
+        "Sarcasm": sarcasm_labels,
+        "Gemma Response": gemma_responses
+    })
 
-# Generate responses
-responses = generate_responses(sentiments, comments)
-
-# Combine results into a DataFrame
-df_results = pd.DataFrame({
-    "Comment": comments,
-    "Sentiment": sentiments,
-    "Sarcasm": sarcasm_labels,
-    "Offensive_Flag": offensive_flags,
-    "Response": responses
-})
-
-# Save results to CSV
-OUTPUT_PATH = os.path.join(os.getcwd(), "outputs", "Processed_Comments.csv")
-df_results.to_csv(OUTPUT_PATH, index=False)
-print(f"Processing complete. Results saved to '{OUTPUT_PATH}'.")
+    results.to_csv("analysis_results.csv", index=False)
+    print("Pipeline completed and results saved to analysis_results.csv.")

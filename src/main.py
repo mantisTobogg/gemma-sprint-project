@@ -1,34 +1,66 @@
-# main.py (Main Workflow)
-import pandas as pd
-from transformers import pipeline
-from better_profanity import profanity
-from .config import CONFIG
+import logging  # Logging enabled
+import torch
+from transformers import (
+    pipeline,
+    AutoTokenizer,
+    AutoModelForSequenceClassification,
+)
+from config import CONFIG  # Import CONFIG
 
-# Initialize models globally to avoid reloading them repeatedly
-sentiment_analyzer = pipeline(
-    "sentiment-analysis",
-    model=CONFIG["models"]["sentiment"],
-    device=CONFIG["device"]
+# Initialize logging
+logging.basicConfig(
+    filename='logs/main.log',  # Log file path
+    level=logging.INFO,  # Logging level
+    format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
-def analyze_sentiment(comments):
-    return [res['label'] for res in sentiment_analyzer(comments)]
+# Setup device: MPS, CUDA, or CPU
+device = torch.device(CONFIG["device"])
 
-def detect_sarcasm(comments):
-    sarcasm_detector = pipeline("text-classification", model=CONFIG["models"]["sarcasm"], device=CONFIG["device"])
-    return [res['label'] for res in sarcasm_detector(comments)]
+# Load the sarcasm detection model and tokenizer
+logging.info("Loading sarcasm detection model and tokenizer...")
+sarcasm_tokenizer = AutoTokenizer.from_pretrained(CONFIG["models"]["sarcasm"])
+sarcasm_model = AutoModelForSequenceClassification.from_pretrained(CONFIG["models"]["sarcasm"]).to(device)
 
-def contains_offensive_language(comment):
-    return profanity.contains_profanity(comment)
+# Sarcasm Detection Function
+def detect_sarcasm(comment):
+    """Detect sarcasm in a single comment."""
+    logging.info(f"Detecting sarcasm for a comment: {comment}")
 
-def generate_responses(sentiments, comments):
-    response_generator = pipeline("text-generation", model=CONFIG["models"]["response"])
-    responses = []
-    for sentiment, comment in zip(sentiments, comments):
-        if sentiment != "Neutral":
-            prompt = f"The following comment is {sentiment}: {comment}"
-            response = response_generator(prompt, max_length=50, num_return_sequences=1)[0]['generated_text']
-            responses.append(response)
-        else:
-            responses.append(None)
-    return responses
+    try:
+        inputs = sarcasm_tokenizer(
+            comment,
+            return_tensors="pt",
+            padding=True,  # Ensure consistent input length
+            truncation=True,  # Avoid exceeding max length
+            max_length=128  # Control input size
+        ).to(device)
+
+        outputs = sarcasm_model(**inputs)
+        sarcasm_score = outputs.logits.softmax(dim=1)[0][1].item()
+        logging.info(f"Sarcasm score: {sarcasm_score}")
+        return sarcasm_score
+
+    except Exception as e:
+        logging.error(f"Error detecting sarcasm: {e}")
+        raise  # Re-raise to ensure visibility
+
+# GEMMA Text Generation
+def generate_gemma_response(prompt):
+    """Generate response using GEMMA model."""
+    logging.info(f"Generating GEMMA response for prompt: {prompt}")
+
+    try:
+        generator = pipeline(
+            "text-generation",
+            model=CONFIG["models"]["text_generation"],
+            device=device
+        )
+
+        response = generator(prompt, max_length=50, num_return_sequences=1)[0]["generated_text"]
+        logging.info(f"GEMMA generated response: {response}")
+        return response
+
+    except Exception as e:
+        logging.error(f"Error generating GEMMA response: {e}")
+        raise  # Re-raise to ensure visibility

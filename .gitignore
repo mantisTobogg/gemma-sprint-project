@@ -1,27 +1,5 @@
-# Ignore system files
-.DS_Store
-Thumbs.db
-
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Virtual environment folders
-env/
-venv/
-*.egg-info/
-
-# Jupyter Notebook checkpoints
-.ipynb_checkpoints/
-
-# VS Code configuration files
-.vscode/
-
 # Mac-specific files
 ._*
-
-# Ignore system files
 .DS_Store
 Thumbs.db
 
@@ -38,5 +16,8 @@ venv/
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints/
 
-# Mac-specific files
+# Log files and folders
+logs/
+
+# Mac-specific files (redundant entry, safe to keep or remove)
 ._*
