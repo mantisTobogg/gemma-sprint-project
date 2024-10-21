@@ -1,3 +1,7 @@
+> [!IMPORTANT]
+> ***<h1 style="color:red;">WORK IN PROGRESS - Major REVAMP</h1>***
+
+--- 
 
 # Gemma-Sprint-Project
 >- #### Special thanks to the bootcamp organizers for the support throughout the bootcamp as well as for the opportunity to take part in this journey. - Kihun Choi 
