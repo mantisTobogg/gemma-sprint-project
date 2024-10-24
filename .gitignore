@@ -21,3 +21,6 @@ logs/
 
 # Mac-specific files (redundant entry, safe to keep or remove)
 ._*
+
+# ignore idea IDE settings
+.idea/
