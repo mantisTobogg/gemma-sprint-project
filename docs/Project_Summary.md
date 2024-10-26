@@ -1,4 +1,6 @@
 # GEMMA-Sprint Project: Model Flow and Architecture Overview
+
+---
 **Author**: Kihun (Sam) Choi  
 **Revision**: 5.0  
 **Date**: 2024-10-26  
@@ -9,15 +11,15 @@ The GEMMA-Sprint Project is an advanced solution integrating **sentiment analysi
 
 ---
 
-## System Architecture Diagram
+## 1. System Architecture Diagram
 
 <div align="center">
-    <img src=".images/GEMMA-Sprint Prj. Model Architecture.png" alt="Model Architecture" width="500">
+    <img src="/images/GEMMA-Sprint Prj. Model Architecture.png" alt="Model Architecture" width="1000">
 </div>
 
 ---
 
-## Process Flow Description  
+## 2. Process Flow Description  
 
 1. **Data Input**: Load comments from `datasets/UScomments_final_cleaned.csv`.
 2. **Sentiment Analysis**:
@@ -35,9 +37,9 @@ The GEMMA-Sprint Project is an advanced solution integrating **sentiment analysi
 
 ---
 
-## Key Enhancements  
+## 3. Key Enhancements  
 
-### Contextual Response Generation  
+### 3.1 Contextual Response Generation  
 > GEMMA generates **tailored responses**:
 - **Positive**: Encouraging  
 - **Negative**: Constructive feedback  
@@ -48,9 +50,7 @@ The GEMMA-Sprint Project is an advanced solution integrating **sentiment analysi
 Provide a witty response to: "<user comment>"
 ```
 
----
-
-### Token Limit Increase  
+### 3.2 Token Limit Increase  
 - **Max tokens** set to 40 for coherent responses.  
 - **Before**: Short, incomplete outputs.  
 - **After**: Detailed responses.  
@@ -61,12 +61,11 @@ Comment: "Your videos always brighten my day!"
 GEMMA Response: "I’m glad to hear that! Stay tuned for more exciting content. Your support means a lot!"
 ```
 
----
-### Parallel Processing Optimization  
+### 3.3 Parallel Processing Optimization  
 - **ProcessPoolExecutor** ensures faster response generation.  
 - **8 workers** handle concurrent batches, reducing computation time.
 
-### Graceful Error Handling with Fallbacks  
+### 3.4 Graceful Error Handling with Fallbacks  
 - **Default Responses**: Provides fallback responses when GEMMA encounters an error or exception.  
 
 - 💡 **Example Placeholder Response**:
@@ -74,13 +73,12 @@ Comment: "Why is this trending?"
 GEMMA Response: "We couldn’t generate a response. Please try again later!"
 
 
-
-### Optimized for Apple Silicon (M2) Hardware  
+### 3.5 Optimized for Apple Silicon (M2) Hardware  
 - **MPS Backend**: Uses Metal Performance Shaders for accelerated processing.  
 - **Performance Boost**: Achieved reduced inference time to 1-2 seconds per comment.
 
 ---
-## Dataset Overview  
+## 4. Dataset Overview  
 
 ### Original Dataset: `UComments.csv`  
 - Contains raw comments with metadata from multiple sources.  
@@ -94,13 +92,14 @@ GEMMA Response: "We couldn’t generate a response. Please try again later!"
 Datasets are available on Kaggle: [US YouTube Comments Dataset](https://www.kaggle.com/datasets/samkihunchoi/us-youtube-comments-dataset)
 
 ---
-## Batch Processing  
+## 5. Batch Processing  
 - **Batch size**: 128  
 - **Workers**: 8  
 - **Checkpointing**: Save each batch to prevent loss.  
 - **Output File**: `outputs/50_percent_processed_comments.csv`
 
-## Training and Checkpoints  
+---
+## 6. Training and Checkpoints  
 
 ### Checkpoint System  
 - Save checkpoints to `/checkpoints/`.  
@@ -110,7 +109,7 @@ Datasets are available on Kaggle: [US YouTube Comments Dataset](https://www.kagg
 
 ---
 
-## Model Evaluation  
+## 7. Model Evaluation  
 ### Improvements  
 - **50% dataset processed** to balance performance and accuracy.  
 - Accurate sarcasm detection with refined prompts.  
@@ -121,7 +120,7 @@ Datasets are available on Kaggle: [US YouTube Comments Dataset](https://www.kagg
 - Deploy model via **REST API** for public access.
 
 ---
-## Limitations and Future Work  
+## 8. Limitations and Future Work  
 
 ### Bias  
 - Cultural or linguistic bias may affect sarcasm detection accuracy.
@@ -135,7 +134,7 @@ Datasets are available on Kaggle: [US YouTube Comments Dataset](https://www.kagg
 
 ---
 
-## Conclusion  
+## 9. Conclusion  
 The GEMMA-Sprint Project delivers an **integrated sentiment analysis and response generation pipeline** with **scalable** and **high-performance processing**.  
 
 With enhanced checkpointing and GEMMA-2B-IT’s advanced model, it supports:  
