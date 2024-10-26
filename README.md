@@ -1,11 +1,8 @@
-<div align="center">
-    <img src="./image.png" alt="Google for Developers: Machine Learning Bootcamp" width="1000">
-</div>
-
----
-
 # 🎓 **Google for Developers: Machine Learning Bootcamp Korea 2024**
 
+<div align="center">
+    <img src="./images/image.png" alt="Google for Developers: Machine Learning Bootcamp" width="1000">
+</div>
 
 # 🛠️ **Gemma-Sprint-Project**
 
