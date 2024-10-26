@@ -1,5 +1,5 @@
 > [!IMPORTANT]
-> ***<h1 style="color:red;">WORK IN PROGRESS - Major REVAMP ONGOING</h1>***
+> ***<h1 style="color:red;">Outdated!!</h1>***
 
 --- 
 
