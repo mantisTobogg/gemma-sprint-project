@@ -5,14 +5,12 @@
 </div>
 
 ---
-
 ### Acknowledgments:
-
 > 🏅 **Special thanks to the bootcamp organizers** for their support and mentorship throughout this project journey!  
 > **- Kihun (Sam) Choi**
 
 > 📑 For detailed **project documentation**, refer to the `docs/` folder!
-
+> 
 > 📜 Historical Reference  
 > For earlier versions of the project and documentation, refer to the [OLD_README.md](archive/OLD_README.md).
 
@@ -32,45 +30,42 @@
 
 ---
 
-# 📌 **Overview**
-
-### **Project Overview:**
-
-The objective was to develop a sophisticated multi-stack model solution tailored to **enterprise consulting** use-cases. By integrating a five-model stack, this project generates sentiment-aware, contextually enriched responses to streamline interactions in tech, B2B, and customer service environments. This project’s unique design aids consultants in capturing user sentiment, detecting sarcasm, and automatically generating meaningful responses, significantly enhancing client engagement and customer satisfaction.
-
+# 📌 **1. Overview**
+## A **Secure**, multi-LLM Enterprise Workflow/Productivity Empowering A.I. Solution
 ### **Key Capabilities:**
-
-- **Customer Sentiment Analysis**: Classify feedback as positive, negative, or sarcastic to prioritize responses.
-- **B2B Support**: Automate responses to save time while maintaining professionalism.
-- **HR Feedback Analysis**: Detect employee feedback trends, identifying areas for workplace improvement.
-
----
-
-## 🏢 **Enterprise Use Cases**
-
-1. **Customer Support for SaaS and B2B Companies**:  
-   In fast-paced environments, efficiently handling large volumes of feedback is critical. **Gemma-Sprint-Project** automatically flags high-risk tickets (negative or sarcastic tone) for prioritized attention and generates empathetic responses, increasing customer satisfaction.
-
-2. **Real-Time Sentiment Analysis for Product Consultants**:  
-   **Gemma-Sprint-Project** enables consultants to gain deeper insights into customer sentiment across social media and reviews. Positive, negative, or sarcastic tones are identified, aiding in product improvement by quickly pinpointing areas of concern.
+> [!IMPORTANT]
+> This project aims to build a sophisticated multi-LLM solution tailored for **enterprise consulting** use-cases, providing sentiment-aware, contextually enriched responses. The solution supports consultants in capturing user sentiment, detecting sarcasm, and generating impactful responses, enhancing client engagement and customer satisfaction.
+>- **Customer Sentiment Analysis**: Classifies feedback as positive, negative, or sarcastic to prioritize responses.
+>- **B2B Support**: Automates responses, saving time while maintaining professionalism.
+>- **HR Feedback Analysis**: Detects trends in employee feedback, identifying areas for improvement.
 
 ---
 
-## 📦 **About the Dataset**
+## 🏢 **2. Enterprise Use Cases**
 
-### **1. Primary Dataset**: `UScomments_final_cleaned.csv`
+1. **Customer Support for SaaS and B2B Companies**  
+   In fast-paced environments, **Gemma-Sprint-Project** flags high-risk tickets (negative or sarcastic tone) for prioritized handling, generating empathetic responses that increase customer satisfaction.
+
+2. **Real-Time Sentiment Analysis for Product Consultants**  
+   This tool enables consultants to gain insights into customer sentiment across social media and reviews, identifying positive, negative, or sarcastic tones to support product improvement efforts.
+
+---
+
+## 📦 **3. About the Dataset**
+
+### **Primary Dataset**: `UScomments_final_cleaned.csv`
 
 - **Core Columns**:
   - **`cleaned_comment`**: User comments, cleaned and pre-processed.
   - **`sentiment`**: Binary sentiment labels (1: Positive, 0: Negative).
 
-### **2. Supplementary IT Glossary Dataset**: `IT_glossory_final_v4.csv`
+### **Supplementary IT Glossary Dataset**: `IT_glossory_final_v4.csv`
 
 - **Purpose**: Provides a glossary of IT terms to enhance technical accuracy and relevance in responses, particularly for enterprise and IT consultancy.
 
 ---
 
-## ⚙️ **Model Architecture**
+## ⚙️ **4. Model Architecture**
 
 ### **Model Stack**:
 
@@ -82,27 +77,29 @@ The objective was to develop a sophisticated multi-stack model solution tailored
 
 ---
 
-## 📋 **Training and Checkpoints**
+## 📋 **5. Training and Checkpoints**
 
-1. **Checkpoints**: Saved in the `checkpoints/` directory, minimizing risk of data loss during lengthy computations.
-2. **Logging**: Real-time logging in `logs/` allows progress tracking and aids in troubleshooting.
+- **Checkpoints**: Stored in the `checkpoints/` directory, minimizing data loss during lengthy computations.
+- **Logging**: Real-time logging in `logs/` allows progress tracking and troubleshooting.
 
-The pipeline is optimized for **Apple Silicon (M2)** hardware using the **MPS backend**, allowing high-performance without sacrificing response quality.
+Optimized for **Apple Silicon (M2)** using the **MPS backend**, balancing high-performance with efficient resource usage.
 
 ---
 
-## 🚀 **Installation and Quickstart**
+## 🚀 **6. Installation and Quickstart**
 
 ### **Pre-requisites**:
 
-1. **Docker** and **Colima** for efficient setup.
-2. **Python 3.10** with dependencies listed in `requirements.txt`.
+1. **Docker** and **Colima** for containerized setup.
+2. **Python 3.10** with dependencies in `requirements.txt`.
 
 ### **Installation Steps**
 
 1. **Clone the Repository**:
    ```bash
    git clone https://github.com/dockerdoge12/gemma-sprint-prj.git
+   ```
+   ```bash
    cd gemma-sprint-prj
    ```
 
@@ -117,7 +114,8 @@ The pipeline is optimized for **Apple Silicon (M2)** hardware using the **MPS ba
    ```
 
 ---
-## 📊 Sample Output
+
+## 📊 **7. Sample Output**
 
  ```zsh
 Loading checkpoint shards: 100%|████████████████████████████████████████████████████████████| 2/2 [00:01<00:00,  1.38it/s]
@@ -127,44 +125,37 @@ User Comment: "We’re using legacy Oracle databases. How challenging would it b
 
 Response: Thank you for bringing this to our attention. Let's work through the compatibility concerns step by step.
 **Understanding the Challenges**
-***Different Database Technologies:** Oracle Database is a relational database management system (RDBMS) based on the SQL standard. Fundamental difference in architecture can lead to compatibility issues.
-1. **Data Mapping and Transformation:**
+- **Different Database Technologies:** Oracle Database is a relational database management system (RDBMS) based on the SQL standard. Fundamental difference in architecture can lead to compatibility issues.
+- **Data Mapping and Transformation:**
     * Identify the data elements that need to be transferred between the two systems (e.g., customer master data, sales orders, inventory levels).
-   * Determine the mapping between data types, structures, and formats in both databases. You might need specialized tools or custom scripts for data conversion and transformation.
-     * Ensure you have the appropriate database drivers installed for both Oracle and Would you like me to elaborate further?
-   ```
----
-
-## ⚙️ Mac ARM64 Optimization Efforts
-
-Given the limited compatibility of some deep learning libraries with ARM64 architecture, a series of critical adaptations were implemented to ensure the model performed efficiently on Apple Silicon:
-
-1. **PyTorch over TensorFlow**:  
-   Replacing TensorFlow with PyTorch enabled compatibility with MPS (Metal Performance Shaders) for faster computation on Apple Silicon.
-
-2. **Batch Size Optimization**:  
-   Adjusted batch sizes and restricted dataset iterations to balance memory use and prevent overloads during training on an M2 chip.
-
-3. **Reduced Computation Complexity**:  
-   Limited training to one epoch initially, while running inference cycles to monitor and iteratively adjust parameters without straining system resources.
-
-4. **Efficient Logging and Checkpointing**:  
-   Enabled detailed logging and periodic checkpointing to track performance without re-running entire training processes.
+    * Determine the mapping between data types, structures, and formats in both databases. Specialized tools or custom scripts may be needed for data conversion.
+- Would you like me to elaborate further?
+ ```
 
 ---
 
-## 🎯 Limitations and Future Work
+## ⚙️ **8. Mac ARM64 Optimization Efforts**
+
+Optimizations were implemented to ensure model performance on **Apple Silicon**:
+
+1. **PyTorch over TensorFlow**: Enabled compatibility with MPS (Metal Performance Shaders) for faster computation.
+2. **Batch Size Adjustment**: Fine-tuned batch sizes to balance memory and computation on the M2 chip.
+3. **Reduced Computation Complexity**: Limited training epochs and iteratively adjusted parameters to minimize resource usage.
+4. **Efficient Logging and Checkpointing**: Detailed logs and checkpoints track performance without requiring re-runs.
+
+---
+
+## 🎯 **9. Limitations and Future Work**
 
 ### **Limitations**
 
-1. **Bias and Context Sensitivity**:  
-   Sarcasm detection remains challenging due to subtle contextual nuances. Model retraining with more context-specific data is needed to reduce false positives in professional settings.
+- **Bias and Context Sensitivity**: Sarcasm detection accuracy remains affected by contextual subtleties; further retraining with specific data is needed to enhance precision.
+- **Computational Constraints**: Optimized for local M2 hardware, limiting training complexity and token length for efficient operation.
+- **Incomplete Responses**: Implemented continuation prompts to address response truncation due to token limitations.
 
-2. **Computational Constraints**:  
-   The model was optimized for local M2 hardware, necessitating simplifications like single-epoch training and prompt-specific responses with GEMMA-2B-IT to generate robust outputs.
+### **Future Work**
 
-3. **Incomplete Responses**:  
-   To address potential truncation of responses due to token limitations, we added continuation prompts to enhance user experience without overloading computation.
+1. **Model Enhancements**: Refine GEMMA-2B-IT prompts for better contextual accuracy.
+2. **Interactive UI Development**: Build a real-time interface for improved user engagement and feedback integration.
 
 ---
-
