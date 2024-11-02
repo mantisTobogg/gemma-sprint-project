@@ -159,3 +159,34 @@ Optimizations were implemented to ensure model performance on **Apple Silicon**:
 2. **Interactive UI Development**: Build a real-time interface for improved user engagement and feedback integration.
 
 ---
+
+##  Acknowledgments-GEMMA-Sprint Project:
+
+1.	**DistilBERT** for Sentiment Analysis
+    Model: distilbert-base-uncased-finetuned-sst-2-english
+    > Source: "https://huggingface.co/distilbert-base-uncased-finetuned-sst-2-english"
+	- Developed by Hugging Face, this model is fine-tuned for sentiment analysis and provides a compact version of BERT for efficient classification tasks.
+
+2.	**Sarcasm Detection Model**
+    Model: helinivan/english-sarcasm-detector
+    > Source: Hugging Face
+  	> Link: "https://huggingface.co/helinivan/english-sarcasm-detector"
+	- Created by Helini Ivan on Hugging Face, this model is designed to detect sarcasm in English text, helping to capture nuances in sentiment.
+
+3.	**GPT-J for Contextual Response Generation**
+    Model: EleutherAI/gpt-j-6B
+    > Source: Hugging Face
+    > Link: "https://huggingface.co/EleutherAI/gpt-j-6B"
+	- Developed by EleutherAI, GPT-J is a powerful language model suitable for generating context-aware, coherent responses.
+
+5.	**MiniLM for IT Domain-Specific Recognition**
+    Model: microsoft/MiniLM-L12-H384-uncased
+    > Source: Hugging Face
+    > Link: "https://huggingface.co/microsoft/MiniLM-L12-H384-uncased"
+	- Created by Microsoft, this model provides efficient natural language understanding, especially for identifying and handling IT-specific terms in
+context.
+
+6.	**GEMMA-2B-IT**
+    > Source: Hugging Face   
+--- 
+
